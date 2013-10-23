@@ -1,0 +1,21 @@
+{
+    "name": "netlife/attribute-bundle-old",
+    "type": "symfony-bundle",
+    "description": "Padam87 AttributeBundle fork",
+    "keywords": ["symfony", "attribute", "eav"],
+    "homepage": "https://equuleus.netlife.hu",
+    "authors": [
+        {
+            "name": "Netlife",
+            "email": "adam.borsos@netlife.hu"
+        }
+    ],
+    "require": {
+        "padam87/search-bundle": "dev-master",
+        "knplabs/knp-paginator-bundle": "dev-master"
+    },
+    "autoload": {
+        "psr-0": { "Padam87\\AttributeBundle": "" }
+    },
+    "target-dir": "Padam87/AttributeBundle"
+}
