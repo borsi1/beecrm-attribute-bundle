@@ -94,7 +94,7 @@ class DefinitionController extends Controller
     }
 
     /**
-     * @Route("/edit/{id}")
+     * @Route("/edit/{id}", defaults={"id" = null})
      * @Template()
      */
     public function editAction($id)
@@ -124,10 +124,19 @@ class DefinitionController extends Controller
             }
         }
 
-        return array(
+        $result = array(
             'form' => $form->createView(),
             'Definition' => $Definition
         );
+
+        if ($request->isXmlHttpRequest()) {
+            return $this->render("Padam87AttributeBundle:Definition:edit.ajax.html.twig", $result);
+        } else {
+            return array(
+                'form' => $form->createView(),
+                'Definition' => $Definition
+            );
+        }
     }
 
     /**
