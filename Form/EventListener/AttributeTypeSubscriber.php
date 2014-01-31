@@ -77,6 +77,18 @@ class AttributeTypeSubscriber implements EventSubscriberInterface
             $type = 'text';
         }
 
+        if ($type == 'date') {
+            $type = 'date';
+            $params['widget'] ='single_text';
+            //var_dump($value);
+            $tmp = \DateTime::createFromFormat("Y-m-d", $value);
+            //var_dump($tmp);
+            if ($tmp) {
+                $value = $tmp;
+                $data->setValue($tmp);
+            }
+        }
+
         if ($type == 'choice' || $type == 'checkbox' || $type == 'radio') {
             if (($type == 'checkbox' || $type == 'radio') && $this->getOption('allow_expanded')) {
                 $params['expanded'] = true;

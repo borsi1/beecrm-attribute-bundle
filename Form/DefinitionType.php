@@ -21,6 +21,7 @@ class DefinitionType extends AbstractType
                 'choice'				=> 'select',
                 'checkbox'				=> 'checkbox',
                 'radio'					=> 'radio',
+                'date'                  => 'date'
             ),
         ));
         $builder->add('options', 'collection', array(

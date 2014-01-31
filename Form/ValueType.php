@@ -5,6 +5,8 @@ namespace Padam87\AttributeBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Padam87\AttributeBundle\Form\EventListener\AttributeTypeSubscriber;
+use Symfony\Component\Form\FormEvents;
+use Symfony\Component\Form\FormEvent;
 
 class ValueType extends AbstractType
 {
@@ -17,6 +19,15 @@ class ValueType extends AbstractType
     {
         $subscriber = new AttributeTypeSubscriber($builder->getFormFactory(), $this->attributeOptions);
         $builder->addEventSubscriber($subscriber);
+
+        $builder->addEventListener(FormEvents::POST_BIND, function (FormEvent $event) {
+            $data = $event->getForm()->getData();
+            if ($data->getAttribute() && $data->getAttribute()->getDefinition()->getType() == "date") {
+                if ($data->getValue()) {
+                    $data->setValue($data->getValue()->format("Y-m-d"));
+                }
+            }
+        });
 
         $builder->add('value', 'text', array(
             'required' => false
