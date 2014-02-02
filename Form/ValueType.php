@@ -23,7 +23,7 @@ class ValueType extends AbstractType
         $builder->addEventListener(FormEvents::POST_BIND, function (FormEvent $event) {
             $data = $event->getForm()->getData();
             if ($data->getAttribute() && $data->getAttribute()->getDefinition()->getType() == "date") {
-                if ($data->getValue()) {
+                if ($data->getValue() instanceof \DateTime) {
                     $data->setValue($data->getValue()->format("Y-m-d"));
                 }
             }
