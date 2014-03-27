@@ -11,7 +11,7 @@
         }
     ],
     "require": {
-        "padam87/search-bundle": "dev-master",
+        "padam87/search-bundle": "1.0.x",
         "knplabs/knp-paginator-bundle": "dev-master"
     },
     "autoload": {
