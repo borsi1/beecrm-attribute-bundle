@@ -84,13 +84,13 @@ class SchemaController extends Controller
                 $this->_em->flush();
 
                 if (!$request->isXmlHttpRequest()) {
-                    $this->get('session')->setFlash('success', $this->get('translator')->trans('messages.save.successful'));
+                    $this->get('session')->getFlashBag()->set('success', $this->get('translator')->trans('messages.save.successful'));
 
                     return $this->redirect($this->generateUrl('padam87_attribute_schema_index'));
                 }
             } else {
                 if (!$request->isXmlHttpRequest()) {
-                    $this->get('session')->setFlash('error', $this->get('translator')->trans('messages.save.unsuccessful'));
+                    $this->get('session')->getFlashBag()->set('error', $this->get('translator')->trans('messages.save.unsuccessful'));
                 }
             }
         }
@@ -131,7 +131,7 @@ class SchemaController extends Controller
         $this->_em->remove($schema);
         $this->_em->flush();
 
-        $this->get('session')->setFlash('success', $this->get('translator')->trans('messages.delete.successful'));
+        $this->get('session')->getFlashBag()->set('success', $this->get('translator')->trans('messages.delete.successful'));
 
         return $this->redirect($this->generateUrl('padam87_attribute_schema_index'));
     }

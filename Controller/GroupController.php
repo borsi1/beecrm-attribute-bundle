@@ -46,7 +46,7 @@ class GroupController extends Controller
                     'name' => $group->getName()
                 )));
             } else {
-                $this->get('session')->setFlash('error', $this->get('translator')->trans('messages.save.unsuccessful'));
+                $this->get('session')->getFlashBag()->set('error', $this->get('translator')->trans('messages.save.unsuccessful'));
             }
         }
 
