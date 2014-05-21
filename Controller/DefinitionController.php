@@ -21,12 +21,12 @@ class DefinitionController extends Controller
      */
     public function indexAction($page = 1)
     {
-        $this->_em = $this->getDoctrine()->getEntityManager();
+        $this->_em = $this->getDoctrine()->getManager();
 
         $Definition = new Definition();
 
         $form = $this->get('form.factory')->create(new DefinitionListForm(), $Definition);
-        $form->bindRequest($this->get('request'));
+        $form->handleRequest($this->get('request'));
 
         $qb = $this->get('search')
                 ->createFilter($form->getData(), 'ad')
@@ -49,14 +49,14 @@ class DefinitionController extends Controller
      */
     public function newAction()
     {
-        $this->_em = $this->getDoctrine()->getEntityManager();
+        $this->_em = $this->getDoctrine()->getManager();
 
         $form = $this->get('form.factory')->create(new DefinitionForm(), new Definition());
 
         $request = $this->get('request');
         if ('POST' == $request->getMethod()) {
 
-            $form->bindRequest($request);
+            $form->handleRequest($request);
 
             if ($form->isValid()) {
                 $Definition = $form->getData();
@@ -67,10 +67,10 @@ class DefinitionController extends Controller
                 if (!$request->isXmlHttpRequest()) {
                     return $this->redirect($this->generateUrl('padam87_attribute_definition_index'));
 
-                    $this->get('session')->setFlash('success', $this->get('translator')->trans('messages.save.successful'));
+                    $this->get('session')->getFlashBag()->set('success', $this->get('translator')->trans('messages.save.successful'));
                 }
             } elseif (!$request->isXmlHttpRequest()) {
-                $this->get('session')->setFlash('error', $this->get('translator')->trans('messages.save.unsuccessful'));
+                $this->get('session')->getFlashBag()->set('error', $this->get('translator')->trans('messages.save.unsuccessful'));
             }
         }
 
@@ -99,7 +99,7 @@ class DefinitionController extends Controller
      */
     public function editAction($id)
     {
-        $this->_em = $this->getDoctrine()->getEntityManager();
+        $this->_em = $this->getDoctrine()->getManager();
 
         $Definition = $this->_em->find('Padam87AttributeBundle:Definition', $id);
 
@@ -108,7 +108,7 @@ class DefinitionController extends Controller
         $request = $this->get('request');
         if ('POST' == $request->getMethod()) {
 
-            $form->bindRequest($request);
+            $form->handleRequest($request);
 
             if ($form->isValid()) {
                 $Definition = $form->getData();
@@ -116,11 +116,11 @@ class DefinitionController extends Controller
                 $this->_em->persist($Definition);
                 $this->_em->flush();
 
-                $this->get('session')->setFlash('success', $this->get('translator')->trans('messages.save.successful'));
+                $this->get('session')->getFlashBag()->set('success', $this->get('translator')->trans('messages.save.successful'));
 
                 return $this->redirect($this->generateUrl('padam87_attribute_definition_index'));
             } else {
-                $this->get('session')->setFlash('error', $this->get('translator')->trans('messages.save.unsuccessful'));
+                $this->get('session')->getFlashBag()->set('error', $this->get('translator')->trans('messages.save.unsuccessful'));
             }
         }
 
@@ -145,14 +145,14 @@ class DefinitionController extends Controller
      */
     public function deleteAction($id)
     {
-        $this->_em = $this->getDoctrine()->getEntityManager();
+        $this->_em = $this->getDoctrine()->getManager();
 
         $Definition = $this->_em->find('Padam87AttributeBundle:Definition', $id);
 
         $this->_em->remove($Definition);
         $this->_em->flush();
 
-        $this->get('session')->setFlash('success', $this->get('translator')->trans('messages.delete.successful'));
+        $this->get('session')->getFlashBag()->set('success', $this->get('translator')->trans('messages.delete.successful'));
 
         return $this->redirect($this->generateUrl('padam87_attribute_definition_index'));
     }

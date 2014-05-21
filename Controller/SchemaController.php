@@ -20,7 +20,7 @@ class SchemaController extends Controller
      */
     public function indexAction($page = 1)
     {
-        $this->_em = $this->getDoctrine()->getEntityManager();
+        $this->_em = $this->getDoctrine()->getManager();
 
         $schema = new Schema();
 
@@ -40,7 +40,7 @@ class SchemaController extends Controller
         }
 
         $form = $this->get('form.factory')->create(new Form\SchemaListType($config), $schema);
-        $form->bindRequest($this->get('request'));
+        $form->handleRequest($this->get('request'));
 
         $qb = $this->get('search')
                 ->createFilter($form->getData(), 's')
@@ -64,7 +64,7 @@ class SchemaController extends Controller
      */
     public function editAction($id)
     {
-        $this->_em = $this->getDoctrine()->getEntityManager();
+        $this->_em = $this->getDoctrine()->getManager();
 
         $schema = $this->_em->find('Padam87AttributeBundle:Schema', $id);
 
@@ -75,7 +75,7 @@ class SchemaController extends Controller
         $request = $this->get('request');
         if ('POST' == $request->getMethod()) {
 
-            $form->bindRequest($request);
+            $form->handleRequest($request);
 
             if ($form->isValid()) {
                 $schema = $form->getData();
@@ -84,13 +84,13 @@ class SchemaController extends Controller
                 $this->_em->flush();
 
                 if (!$request->isXmlHttpRequest()) {
-                    $this->get('session')->setFlash('success', $this->get('translator')->trans('messages.save.successful'));
+                    $this->get('session')->getFlashBag()->set('success', $this->get('translator')->trans('messages.save.successful'));
 
                     return $this->redirect($this->generateUrl('padam87_attribute_schema_index'));
                 }
             } else {
                 if (!$request->isXmlHttpRequest()) {
-                    $this->get('session')->setFlash('error', $this->get('translator')->trans('messages.save.unsuccessful'));
+                    $this->get('session')->getFlashBag()->set('error', $this->get('translator')->trans('messages.save.unsuccessful'));
                 }
             }
         }
@@ -124,14 +124,14 @@ class SchemaController extends Controller
      */
     public function deleteAction($id)
     {
-        $this->_em = $this->getDoctrine()->getEntityManager();
+        $this->_em = $this->getDoctrine()->getManager();
 
         $schema = $this->_em->find('Padam87AttributeBundle:Schema', $id);
 
         $this->_em->remove($schema);
         $this->_em->flush();
 
-        $this->get('session')->setFlash('success', $this->get('translator')->trans('messages.delete.successful'));
+        $this->get('session')->getFlashBag()->set('success', $this->get('translator')->trans('messages.delete.successful'));
 
         return $this->redirect($this->generateUrl('padam87_attribute_schema_index'));
     }

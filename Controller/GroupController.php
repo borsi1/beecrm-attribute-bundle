@@ -21,7 +21,7 @@ class GroupController extends Controller
      */
     public function newAction($schemaId)
     {
-        $this->_em = $this->getDoctrine()->getEntityManager();
+        $this->_em = $this->getDoctrine()->getManager();
 
         $schema = $this->_em->find('Padam87AttributeBundle:Schema', $schemaId);
         
@@ -33,7 +33,7 @@ class GroupController extends Controller
         $request = $this->get('request');
         if ('POST' == $request->getMethod()) {
 
-            $form->bindRequest($request);
+            $form->handleRequest($request);
 
             if ($form->isValid()) {
                 $group = $form->getData();
@@ -46,7 +46,7 @@ class GroupController extends Controller
                     'name' => $group->getName()
                 )));
             } else {
-                $this->get('session')->setFlash('error', $this->get('translator')->trans('messages.save.unsuccessful'));
+                $this->get('session')->getFlashBag()->set('error', $this->get('translator')->trans('messages.save.unsuccessful'));
             }
         }
 
@@ -62,7 +62,7 @@ class GroupController extends Controller
      */
     public function deleteAction($id)
     {
-        $this->_em = $this->getDoctrine()->getEntityManager();
+        $this->_em = $this->getDoctrine()->getManager();
 
         $group = $this->_em->find('Padam87AttributeBundle:Group', $id);
 

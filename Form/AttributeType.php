@@ -4,6 +4,7 @@ namespace Padam87\AttributeBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class AttributeType extends AbstractType
 {
@@ -32,10 +33,12 @@ class AttributeType extends AbstractType
         return 'attribute';
     }
 
-    public function getDefaultOptions(array $options)
+    public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-        return array(
-            'data_class' => 'Padam87\AttributeBundle\Entity\Attribute',
+        $resolver->setDefaults(
+            [
+                'data_class' => 'Padam87\AttributeBundle\Entity\Attribute',
+            ]
         );
     }
 }

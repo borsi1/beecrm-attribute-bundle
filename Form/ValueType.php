@@ -7,6 +7,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Padam87\AttributeBundle\Form\EventListener\AttributeTypeSubscriber;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormEvent;
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class ValueType extends AbstractType
 {
@@ -42,10 +43,12 @@ class ValueType extends AbstractType
         return 'value';
     }
 
-    public function getDefaultOptions(array $options)
+    public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-        return array(
-            'data_class' => 'Padam87\AttributeBundle\Entity\Value',
+        $resolver->setDefaults(
+            [
+                'data_class' => 'Padam87\AttributeBundle\Entity\Value',
+            ]
         );
     }
 }
